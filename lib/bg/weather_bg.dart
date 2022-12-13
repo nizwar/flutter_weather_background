@@ -14,19 +14,16 @@ class WeatherBg extends StatefulWidget {
   final double width;
   final double height;
 
-  WeatherBg(
-      {Key? key,
-      required this.weatherType,
-      required this.width,
-      required this.height})
-      : super(key: key);
+  /// Custom sky colors
+  final List<Color>? skyColors;
+
+  WeatherBg({Key? key, required this.weatherType, required this.width, required this.height, this.skyColors}) : super(key: key);
 
   @override
   _WeatherBgState createState() => _WeatherBgState();
 }
 
-class _WeatherBgState extends State<WeatherBg>
-    with SingleTickerProviderStateMixin {
+class _WeatherBgState extends State<WeatherBg> with SingleTickerProviderStateMixin {
   WeatherType? _oldWeatherType;
   bool needChange = false;
   var state = CrossFadeState.showSecond;
@@ -49,12 +46,14 @@ class _WeatherBgState extends State<WeatherBg>
         weatherType: _oldWeatherType!,
         width: widget.width,
         height: widget.height,
+        colors: widget.skyColors,
       );
     }
     var currentBgWidget = WeatherItemBg(
       weatherType: widget.weatherType,
       width: widget.width,
       height: widget.height,
+      colors: widget.skyColors,
     );
     if (oldBgWidget == null) {
       oldBgWidget = currentBgWidget;
@@ -89,9 +88,15 @@ class WeatherItemBg extends StatelessWidget {
   final WeatherType weatherType;
   final width;
   final height;
+  final List<Color>? colors;
 
-  WeatherItemBg({Key? key, required this.weatherType, this.width, this.height})
-      : super(key: key);
+  WeatherItemBg({
+    Key? key,
+    required this.weatherType,
+    this.width,
+    this.height,
+    this.colors,
+  }) : super(key: key);
 
   /// 构建晴晚背景效果
   Widget _buildNightStarBg() {
@@ -133,10 +138,8 @@ class WeatherItemBg extends StatelessWidget {
       child: ClipRect(
         child: Stack(
           children: [
-            WeatherColorBg(weatherType: weatherType,),
-            WeatherCloudBg(
-              weatherType: weatherType,
-            ),
+            WeatherColorBg(weatherType: weatherType, colors: colors),
+            WeatherCloudBg(weatherType: weatherType),
             _buildRainSnowBg(),
             _buildThunderBg(),
             _buildNightStarBg(),
