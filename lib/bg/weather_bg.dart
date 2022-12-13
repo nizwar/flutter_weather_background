@@ -101,9 +101,7 @@ class WeatherItemBg extends StatelessWidget {
   /// 构建晴晚背景效果
   Widget _buildNightStarBg() {
     if (weatherType == WeatherType.sunnyNight) {
-      return WeatherNightStarBg(
-        weatherType: weatherType,
-      );
+      return WeatherNightStarBg(weatherType: weatherType);
     }
     return Container();
   }
@@ -111,9 +109,7 @@ class WeatherItemBg extends StatelessWidget {
   /// 构建雷暴效果
   Widget _buildThunderBg() {
     if (weatherType == WeatherType.thunder) {
-      return WeatherThunderBg(
-        weatherType: weatherType,
-      );
+      return WeatherThunderBg(weatherType: weatherType);
     }
     return Container();
   }
